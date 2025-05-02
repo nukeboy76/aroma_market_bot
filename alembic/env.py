@@ -1,0 +1,6 @@
+# ...
+from app.models import *  # noqa: F401,F403  # <-- добавьте, чтобы зарегистрировать все модели
+from app.models.base import Base
+
+target_metadata = Base.metadata
+# ...
