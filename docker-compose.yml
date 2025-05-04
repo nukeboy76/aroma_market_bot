@@ -5,6 +5,7 @@ services:
     env_file: .env
     depends_on:
       - db
+    network_mode: host
   db:
     image: postgres:15
     volumes:

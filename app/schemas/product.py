@@ -10,6 +10,8 @@ class ProductRead(BaseModel):
     description: str | None
     price: int
     image_url: HttpUrl | None
+    post_url: HttpUrl | None
+    thread_id: int
 
     class Config:
         from_attributes = True

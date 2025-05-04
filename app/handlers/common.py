@@ -12,8 +12,10 @@ async def cmd_start(message: types.Message) -> None:
         "/catalog — открыть каталог товаров\n"
         "/card    — показать информацию о карте лояльности\n"
         "/order   — отобразить текущий заказ\n"
-        "/help    — показать эту справку"
+        "/help    — показать эту справку\n\n"
+        "Если возникли вопросы по конкретному товару, можете задать их в <a href=\"t.me/aroma_market_group\">основной группе</a> или здесь, в чате."
     )
+
     kb = [
         [types.KeyboardButton(text="Каталог")],
         [types.KeyboardButton(text="Лояльная карта")],

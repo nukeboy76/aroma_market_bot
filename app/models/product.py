@@ -1,4 +1,4 @@
-from sqlalchemy import String, Text
+from sqlalchemy import BigInteger, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import Base
@@ -13,3 +13,5 @@ class Product(Base):
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
     price: Mapped[int] = mapped_column()  # в копейках для точности
     image_url: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    post_url: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    thread_id: Mapped[int | None] = mapped_column(BigInteger, nullable=True, unique=True)

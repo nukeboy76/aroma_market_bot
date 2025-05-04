@@ -13,6 +13,7 @@ from aiogram.enums import ParseMode
 from aiogram.types import BotCommand
 
 from app.config import settings
+from app.handlers.comments import router as comments_router
 from app.handlers.common import router as common_router
 from app.handlers.catalog import router as catalog_router
 from app.handlers.loyalty import router as loyalty_router
@@ -40,6 +41,7 @@ def create_dispatcher() -> Dispatcher:
     dp.update.middleware(DbSessionMiddleware())
 
     # подключаем роутеры
+    dp.include_router(comments_router)
     dp.include_router(common_router)
     dp.include_router(catalog_router)
     dp.include_router(loyalty_router)

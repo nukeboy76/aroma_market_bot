@@ -4,6 +4,8 @@ from aiogram.fsm.context import FSMContext
 
 from app.schemas.product import ProductRead
 from app.services.product_service import ProductService
+from app.services.ai_service import AIService
+
 
 router = Router(name="catalog")
 
@@ -23,7 +25,9 @@ def main_menu_keyboard() -> types.ReplyKeyboardMarkup:
 # ---------- список категорий ------------------------------------------ #
 
 
-async def _send_categories(msg: types.Message | types.CallbackQuery, session):
+async def _send_categories(msg: types.Message | types.CallbackQuery, session, state: FSMContext):
+    # Clear any previous product context
+    await state.clear()  # reset current_product_id
     svc = ProductService(session)
     cats = await svc.get_categories()
 
@@ -45,12 +49,12 @@ async def _send_categories(msg: types.Message | types.CallbackQuery, session):
 @router.message(Command("catalog"))
 @router.message(lambda m: m.text == "Каталог")
 async def show_categories(message: types.Message, session, state: FSMContext) -> None:
-    await _send_categories(message, session)
+    await _send_categories(message, session, state)
 
 
 @router.callback_query(lambda c: c.data == "categories")
-async def back_to_categories(query: types.CallbackQuery, session) -> None:
-    await _send_categories(query, session)
+async def back_to_categories(query: types.CallbackQuery, session, state: FSMContext) -> None:
+    await _send_categories(query, session, state)
 
 
 @router.callback_query(lambda c: c.data == "main_menu")
@@ -67,7 +71,10 @@ async def back_to_main_menu(query: types.CallbackQuery) -> None:
 
 
 @router.callback_query(lambda c: c.data.startswith("cat:"))
-async def choose_category(query: types.CallbackQuery, session) -> None:
+async def choose_category(
+    query: types.CallbackQuery, session, state: FSMContext
+) -> None:
+    await state.clear()  # ensure no leftover product context
     category = query.data.split(":", 1)[1]
     svc = ProductService(session)
     products = await svc.get_by_category(category)
@@ -93,19 +100,22 @@ async def choose_category(query: types.CallbackQuery, session) -> None:
 
 
 @router.callback_query(lambda c: c.data.startswith("prod:"))
-async def product_details(query: types.CallbackQuery, session) -> None:
+async def product_details(
+    query: types.CallbackQuery, session, state: FSMContext  # 2. Add state here
+) -> None:
     product_id = int(query.data.split(":", 1)[1])
 
     svc = ProductService(session)
     p = await svc.get(product_id)
     dto = ProductRead.model_validate(p)
 
-    text = (
-        f"<b>{dto.name}</b>\n"
-        f"{dto.country} | {dto.grape or '-'}\n"
-        f"Цена: {dto.price} ₽\n"
-        f"{dto.description or ''}"
-    )
+    await state.update_data(current_product_id=product_id)
+
+    text = f"""<b>{dto.name}</b>
+{dto.country}{' | ' + dto.grape if dto.grape else ''}
+Цена: {dto.price} ₽
+{dto.description or ''}\n
+<a href="{dto.post_url}">Вопросы и отзывы</a>"""
 
     kb = types.InlineKeyboardMarkup(
         inline_keyboard=[
@@ -124,3 +134,37 @@ async def product_details(query: types.CallbackQuery, session) -> None:
 
     await query.message.edit_text(text, reply_markup=kb, parse_mode="HTML")
     await query.answer()
+
+# --------------------------------------------------------------------- #
+# Вопросы о товаре
+# --------------------------------------------------------------------- #
+@router.message(lambda m: True)
+async def ask_about_product(
+    message: types.Message, session, state: FSMContext
+) -> None:
+    data = await state.get_data()
+    product_id = data.get("current_product_id")
+
+    if not product_id:
+        await message.answer(
+            "Чтобы задать вопрос о товаре, перейдите в любой из "
+            "интересующих товаров. Затем задайте вопрос."
+        )
+        return
+
+    # Отправляем уведомление об обработке
+    processing_msg = await message.answer("Ваш вопрос в обработке…")
+
+    # Получаем данные товара
+    svc = ProductService(session)
+    p = await svc.get(product_id)
+    dto = ProductRead.model_validate(p)
+    question = message.text.strip()
+
+    # Запрашиваем ответ у OpenAI
+    answer = await AIService.answer_about_product(
+        product=dto.model_dump(), question=question
+    )
+
+    # Редактируем «обрабатываем» на финальный ответ
+    await processing_msg.edit_text(answer)
