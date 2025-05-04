@@ -71,13 +71,13 @@ curl -fsSL https://ollama.com/install.sh | sudo bash
 #### 3.2 Загрузка модели
 
 ```
-ollama pull gemma3
+ollama pull gemma3:12b
 ```
 
 #### 3.3 Проверка модели
 
 ```
-ollama query gemma3 "Привет, как дела?"
+ollama run gemma3:12b "Привет, как дела?"
 ```
 
 #### 3.4 Запуск Ollama сервера
