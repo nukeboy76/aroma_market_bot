@@ -52,7 +52,7 @@ cd aroma_market_bot
 
 ```
 BOT_TOKEN=ваш_токен_бота
-DATABASE_URL=postgresql+asyncpg://<имя_пользователя>:<пароль_пользователя>@db:5432/ваша_бд
+DATABASE_URL=postgresql+asyncpg://<имя_пользователя>:<пароль_пользователя>@host:5432/ваша_бд
 LOG_LEVEL=INFO
 
 POSTGRES_USER=имя_пользователя
@@ -60,7 +60,32 @@ POSTGRES_PASSWORD=пароль_пользователя
 POSTGRES_DB=ваша_бд
 ```
 
-### 3. Запустить
+### 3. Настроить Ollama и загрузить модель
+
+#### 3.1 Скачивание с официального сайта
+
+```
+curl -fsSL https://ollama.com/install.sh | sudo bash
+```
+
+#### 3.2 Загрузка модели
+
+```
+ollama pull gemma3
+```
+
+#### 3.3 Проверка модели
+
+```
+ollama query gemma3 "Привет, как дела?"
+```
+
+#### 3.4 Запуск Ollama сервера
+```
+ollama serve
+```
+
+### 4. Запустить бота
 
 ```bash
 docker-compose up --build -d

@@ -15,7 +15,7 @@ class AIService:
             f"Описание: {product.get('description', '(нет описания)')}\n"
             f"Цена: {product['price'] / 100:.2f} ₽\n\n"
             f"Вопрос пользователя: {question}\n"
-            f"Вежливый и краткий ответ:"
+            f"Вежливый ответ:"
         )
 
         logging.info(prompt)
