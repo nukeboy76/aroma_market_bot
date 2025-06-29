@@ -1,3 +1,5 @@
+from typing import Union
+
 from pydantic import BaseModel, HttpUrl, field_validator
 
 
@@ -8,7 +10,7 @@ class ProductRead(BaseModel):
     country: str
     grape: str | None
     description: str | None
-    price: int
+    price: Union[int, float]
     image_url: HttpUrl | None
     post_url: HttpUrl | None
     thread_id: int

@@ -138,7 +138,7 @@ async def product_details(
 # --------------------------------------------------------------------- #
 # Вопросы о товаре
 # --------------------------------------------------------------------- #
-@router.message(lambda m: True)
+@router.message(lambda m: m.text and not m.text.startswith("/"))
 async def ask_about_product(
     message: types.Message, session, state: FSMContext
 ) -> None:

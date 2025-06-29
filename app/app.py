@@ -42,10 +42,10 @@ def create_dispatcher() -> Dispatcher:
 
     # подключаем роутеры
     dp.include_router(comments_router)
-    dp.include_router(common_router)
-    dp.include_router(catalog_router)
     dp.include_router(loyalty_router)
     dp.include_router(order_router)
+    dp.include_router(common_router)
+    dp.include_router(catalog_router)
 
     return dp
 

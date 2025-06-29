@@ -13,7 +13,7 @@ class AIService:
         prompt = (
             f"Товар: {product['name']} ({product['category']}, {product['country']}).\n"
             f"Описание: {product.get('description', '(нет описания)')}\n"
-            f"Цена: {product['price'] / 100:.2f} ₽\n\n"
+            f"Цена: {product['price'] :.2f} ₽\n\n"
             f"Вопрос пользователя: {question}\n"
             f"Вежливый ответ:"
         )

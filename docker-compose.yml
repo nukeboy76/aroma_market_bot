@@ -1,10 +1,13 @@
-version: '3.8'
 services:
   bot:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
     env_file: .env
     depends_on:
       - db
+      - ollama
     network_mode: host
   db:
     image: postgres:15
@@ -16,5 +19,33 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
+
+  ollama:
+    build:
+      context: ./ollama
+      dockerfile: ./Dockerfile
+    image: ollama-rocm-full
+    ports:
+      - "11434:11434"
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+      - OLLAMA_NUM_PARALLEL=4
+      - OLLAMA_MODELS=/models
+      - OLLAMA_KEEP_ALIVE=10m
+      - HSA_OVERRIDE_GFX_VERSION=10.3.0
+    volumes:
+      - ollama_models:/models
+    devices:
+      - "/dev/kfd:/dev/kfd"
+      - "/dev/dri:/dev/dri"
+    security_opt:
+      - seccomp=unconfined
+    restart: unless-stopped
+
 volumes:
   pgdata:
+  ollama_models:
+
+networks:
+  default:
+    driver: bridge

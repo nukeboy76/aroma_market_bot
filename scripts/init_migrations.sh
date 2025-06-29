@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-alembic init -t async alembic
-alembic revision --autogenerate -m "initial"
+#alembic init -t async alembic
+#alembic revision --autogenerate -m "initial"
 alembic upgrade head
 
 set -o allexport

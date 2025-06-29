@@ -2,30 +2,42 @@ BEGIN;
 
 -- Wine
 INSERT INTO product (name, category, country, grape, description, price, image_url, post_url, thread_id) VALUES
-('Cabernet Sauvignon', 'Wine', 'France', 'Cabernet Sauvignon', 'Классическое бордоское красное вино с насыщенным вкусом черной смородины', 1500, NULL, NULL, NULL),
-('Chardonnay',         'Wine', 'France', 'Chardonnay',         'Белое вино Бургундии с нотами яблока и ванили',                  1400, NULL, NULL, NULL),
-('Pinot Noir',         'Wine', 'France', 'Pinot Noir',         'Деликатное красное вино с ягодными и земляными оттенками',      1600, NULL, NULL, NULL),
-('Sauvignon Blanc',    'Wine', 'France', 'Sauvignon Blanc',    'Освежающее белое вино с цитрусовыми и травяными нотами',         1300, NULL, NULL, NULL);
-
--- Cognac
-INSERT INTO product (name, category, country, grape, description, price, image_url, post_url, thread_id) VALUES
-('Hennessy VSOP',      'Cognac','France', NULL, 'Классический VSOP коньяк с оттенками ванили и специй',           4500, NULL, NULL, NULL),
-('Rémy Martin VSOP',   'Cognac','France', NULL, 'Баланcированный VSOP с фруктово-цветочным букетом',              4400, NULL, NULL, NULL),
-('Courvoisier VSOP',   'Cognac','France', NULL, 'Сложный VSOP коньяк с древесными и карамельными нотами',         4300, NULL, NULL, NULL),
-('D\'Usse VSOP',       'Cognac','France', NULL, 'Дерзкий VSOP с интенсивным вкусом фруктов и шоколада',           4200, NULL, NULL, NULL);
+  ('Château du Soleil 2018',   'Wine',   'France', 'Merlot',      'Плотное красное вино с нотами спелой вишни и тёмного шоколада.',                    239900,
+    'https://t.me/aroma_market_group/7/photo',
+    'https://t.me/aroma_market_group/7',
+    7),
+  ('Barolo La Terra 2017',      'Wine',   'Italy',  'Nebbiolo',    'Элегантное сухое вино с выразительными тонами розы и пряных специй.',                289900,
+    'https://t.me/aroma_market_group/10/photo',
+    'https://t.me/aroma_market_group/10',
+    10),
+  ('Marques de Sol Crianza 20', 'Wine',   'Spain',  'Tempranillo', 'Фруктовое красное вино с 6-месячной выдержкой в американском дубе, с нотами ягод и специй.', 119900,
+    'https://t.me/aroma_market_group/13/photo',
+    'https://t.me/aroma_market_group/13',
+    13);
 
 -- Whiskey
 INSERT INTO product (name, category, country, grape, description, price, image_url, post_url, thread_id) VALUES
-('Johnnie Walker Blue Label',      'Whiskey','Scotland', NULL, 'Премиум шотландский бленд с глубоким вкусом дыма и специй', 8000, NULL, NULL, NULL),
-('Jameson Irish Whiskey',          'Whiskey','Ireland',  NULL, 'Классический ирландский виски с мягким и слегка сладковатым послевкусием', 3000, NULL, NULL, NULL),
-('Buchanan\'s Deluxe 12 Year',     'Whiskey','Scotland', NULL, '12-летний шотландский бленд с нотами меда и орехов',      5500, NULL, NULL, NULL),
-('Crown Royal Canadian Whisky',    'Whiskey','Canada',   NULL, 'Канадский виски с бархатистой текстурой и фруктовыми акцентами', 3500, NULL, NULL, NULL);
+  ('Glen Highland 12 y.o.',          'Whiskey', 'Scotland', NULL, 'Выдержанный в бочках из-под бурбона, с карамельными и древесными нотами.', 459900,
+    'https://t.me/aroma_market_group/8/photo',
+    'https://t.me/aroma_market_group/8',
+    8),
+  ('Kentucky Straight Bourbon',      'Whiskey', 'USA',      NULL, 'Аромат дуба, ванили и карамели в каждой капле настоящего американского бурбона.', 179900,
+    'https://t.me/aroma_market_group/12/photo',
+    'https://t.me/aroma_market_group/12',
+    12);
 
--- Vodka
+-- Brandy
 INSERT INTO product (name, category, country, grape, description, price, image_url, post_url, thread_id) VALUES
-('Ketel One Vodka',    'Vodka','Netherlands', NULL, 'Чистая зерновая водка с мягким и чистым вкусом',     2500, NULL, NULL, NULL),
-('Grey Goose Vodka',   'Vodka','France',      NULL, 'Премиальная французская водка с шелковистым послевкусием', 3000, NULL, NULL, NULL),
-('Tito\'s Handmade Vodka','Vodka','USA',     NULL, 'Американская кукурузная водка с нейтральным вкусом и мягкостью', 2200, NULL, NULL, NULL),
-('Belvedere Vodka',    'Vodka','Poland',      NULL, 'Польская рождественская водка с легкими ванильными и кремовыми оттенками', 2800, NULL, NULL, NULL);
+  ('Gran Reserva Brandy XO', 'Brandy', 'Spain', NULL, 'Мягкий бренди с ванильно-карамельным послевкусием и тонким пряным ароматом.', 319900,
+    'https://t.me/aroma_market_group/9/photo',
+    'https://t.me/aroma_market_group/9',
+    9);
+
+-- Liqueur
+INSERT INTO product (name, category, country, grape, description, price, image_url, post_url, thread_id) VALUES
+  ('Irish Meadow Cream', 'Liqueur', 'Ireland', NULL, 'Нежный ликёр на основе виски, с мягким сливочным и ванильным профилем.', 139900,
+    'https://t.me/aroma_market_group/11/photo',
+    'https://t.me/aroma_market_group/11',
+    11);
 
 COMMIT;
